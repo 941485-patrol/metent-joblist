@@ -1,0 +1,18 @@
+services:
+  web:
+    build:
+      context: ./next-app
+      dockerfile: Dockerfile
+    container_name: nextjs-dev-app
+    ports:
+      - "3000:3000"
+      - "9229:9229"
+    environment:
+      - NODE_ENV=development
+      - PORT=3000
+      - HOSTNAME=0.0.0.0
+    volumes:
+      - ./next-app:/app
+      - /app/node_modules
+      - /app/.next
+    # restart: always
