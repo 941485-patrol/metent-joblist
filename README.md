@@ -34,6 +34,7 @@ I used the Pages router initially for this task but realized I need the Metadata
 ## Next steps you would take if you had more time.
 
 I would definitely polish the UI more. I would also take the inline CSS classes in a file for readability. I would also consider adding validation on the response data itself even though this app does not handle forms. Also sanitazation on the description value to avoid invalid HTML leaking on the frontend.
+I would also deploy this to Vercel, but since there is lot of vulnerabilities in there currently, I opted not to.
 
 ## What is still vital but missing before this could be considered production-ready.
 
