@@ -1,12 +1,12 @@
 "use client";
 
-import React, { useMemo } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { JOBS_DATA } from '../data/jobs';
 import { Job } from '../types/job';
 import Link from "next/link";
 import { dateFormatter } from "../util/dateformatter";
 import { useRouter, useSearchParams, usePathname } from "next/navigation";
-import Head from "next/head";
+import { getAllJobs } from "../services/jobService";
 
 export default function JobIndexPage(): React.JSX.Element {
 
@@ -17,23 +17,29 @@ export default function JobIndexPage(): React.JSX.Element {
     const selectedDepartment = searchParams.get('department') || 'all';
     const selectedType = searchParams.get('type') || 'all';
 
-    const departments = useMemo(() => {
-        const sets = new Set(JOBS_DATA.map(j => j.department));
-        return ['all', ...Array.from(sets)];
+    const [allJobs, setAllJobs] = useState<Job[]>([]);
+
+    useEffect(() => {
+        getAllJobs().then((data) => setAllJobs(data));
     }, []);
+
+    const departments = useMemo(() => {
+        const sets = new Set(allJobs.map(j => j.department));
+        return ['all', ...Array.from(sets)];
+    }, [allJobs]);
 
     const employmentTypes = useMemo(() => {
-        const sets = new Set(JOBS_DATA.map(j => j.type));
+        const sets = new Set(allJobs.map(j => j.type));
         return ['all', ...Array.from(sets)];
-    }, []);
+    }, [allJobs]);
 
     const filteredJobs = useMemo(() => {
-        return JOBS_DATA.filter((job: Job) => {
+        return allJobs.filter((job: Job) => {
             const matchesDept = selectedDepartment === 'all' || job.department === selectedDepartment;
             const matchesType = selectedType === 'all' || job.type === selectedType;
             return matchesDept && matchesType;
         });
-    }, [selectedDepartment, selectedType]);
+    }, [allJobs, selectedDepartment, selectedType]);
 
     const handleFilterChange = (key: 'department' | 'type', value: string) => {
         const params = new URLSearchParams(searchParams.toString());

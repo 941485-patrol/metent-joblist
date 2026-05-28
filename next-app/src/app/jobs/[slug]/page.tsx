@@ -7,17 +7,16 @@ import { notFound } from 'next/navigation';
 import { JOBS_DATA } from '../../../data/jobs';
 import { dateFormatter } from "../../../util/dateformatter";
 import ApplyButton from "../../../components/applyNowButton";
-import JobNotFound from '../../../components/jobNotFound';
-JobNotFound
+import { getJobBySlug } from '../../../services/jobService';
 
 
 interface Props {
-    params: Promise<{ slug: string }>; // In modern Next.js App Router, params is a Promise
+    params: Promise<{ slug: string }>;
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
     const { slug } = await params;
-    const job = JOBS_DATA.find((j) => j.slug === slug);
+    const job = await getJobBySlug(slug);
 
     if (!job) {
         return {
@@ -46,7 +45,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function JobDetailPage({ params }: Props): Promise<React.JSX.Element> {
     const { slug } = await params;
-    const job = JOBS_DATA.find((j) => j.slug === slug);
+    const job = await getJobBySlug(slug);
 
     if (!job) {
         notFound();
