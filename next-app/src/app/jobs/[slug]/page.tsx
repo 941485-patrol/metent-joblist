@@ -52,8 +52,51 @@ export default async function JobDetailPage({ params }: Props): Promise<React.JS
         notFound();
     }
 
+    // Structured data.
+    const jsonLdSchema = {
+        "@context": "https://schema.org",
+        "@type": "JobPosting",
+        "title": job.title,
+        "description": job.description,
+        "datePosted": job.postedDate,
+        "validThrough": job.closingDate || undefined,
+        "employmentType": job.type.toUpperCase().replace('-', '_'),
+
+        "hiringOrganization": {
+            "@type": "Organization",
+            "name": "Medical Careers Inc.",
+            "sameAs": "http://localhost:3000"
+        },
+
+        "jobLocation": {
+            "@type": "Place",
+            "address": {
+                "@type": "PostalAddress",
+                "addressLocality": job.location,
+                "addressRegion": "Manila",
+                "addressCountry": "PH"
+            }
+        },
+
+        "baseSalary": {
+            "@type": "MonetaryAmount",
+            "currency": job.salary.currency,
+            "value": {
+                "@type": "QuantitativeValue",
+                "minValue": job.salary.min,
+                "maxValue": job.salary.max,
+                "unitText": "YEAR"
+            }
+        }
+    };
+
     return (
         <main style={{ maxWidth: '800px', margin: '40px auto', padding: '0 20px', fontFamily: 'sans-serif' }}>
+
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdSchema) }}
+            />
 
             <Link href="/" style={{ color: '#0070f3', textDecoration: 'none', display: 'inline-block', marginBottom: '20px' }}>
                 ← Back to Job Listings

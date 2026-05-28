@@ -47,8 +47,30 @@ export default function JobIndexPage(): React.JSX.Element {
         router.push(`${pathname}?${params.toString()}`);
     };
 
+    // Dynamic structured data using useMemo hook.
+    const jsonLdSchema = useMemo(() => {
+        return {
+            "@context": "https://schema.org",
+            "@type": "ItemList",
+            "name": "Job Openings",
+            "description": "A curated list of available medical and healthcare career opportunities.",
+            "url": "http://localhost:3000/",
+            "numberOfItems": filteredJobs.length,
+            "itemListElement": filteredJobs.map((job: Job, index: number) => ({
+                "@type": "ListItem",
+                "position": index + 1,
+                "url": `http://localhost:3000/jobs/${job.slug}`
+            }))
+        };
+    }, [filteredJobs]);
+
     return (
         <main style={{ maxWidth: '800px', margin: '40px auto', padding: '0 20px', fontFamily: 'sans-serif' }}>
+
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdSchema) }}
+            />
 
             <h1 style={{ borderBottom: '2px solid #eaeaea', paddingBottom: '10px', color: '#111' }}>
                 Job Board App Router
