@@ -4,6 +4,7 @@ import { Job } from '../types/job';
 import Link from "next/link";
 import { dateFormatter } from "../util/dateformatter";
 import { useRouter } from "next/router";
+import Head from "next/head";
 
 export default function JobIndexPage(): React.JSX.Element {
 
@@ -46,8 +47,13 @@ export default function JobIndexPage(): React.JSX.Element {
 
   return (
     <main style={{ maxWidth: '800px', margin: '40px auto', padding: '0 20px', fontFamily: 'sans-serif' }}>
+      <Head>
+        <title>Job Board</title>
+        <link rel="canonical" href="http://localhost:3000/" />
+      </Head>
+
       <h1 style={{ borderBottom: '2px solid #eaeaea', paddingBottom: '10px', color: '#111' }}>
-        Medical Opportunities
+        Job Board
       </h1>
 
       {/* Filter jobs by department and employment type. */}
