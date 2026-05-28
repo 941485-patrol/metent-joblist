@@ -1,70 +1,64 @@
-import Head from "next/head";
-import Image from "next/image";
-import styles from "../styles/Home.module.css";
+import React from "react";
+import { JOBS_DATA } from '../data/jobs';
+import { Job } from '../types/job';
+import Link from "next/link";
+import { dateFormatter } from "../util/dateformatter";
 
-export default function Home() {
+export default function JobIndexPage(): React.JSX.Element {
+
   return (
-    <div className={styles.container}>
-      <Head>
-        <title>Create Next app</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
+    <main style={{ maxWidth: '800px', margin: '40px auto', padding: '0 20px', fontFamily: 'sans-serif' }}>
+      <h1 style={{ borderBottom: '2px solid #eaeaea', paddingBottom: '10px', color: '#111' }}>
+        Medical Opportunities
+      </h1>
 
-      <main className={styles.main}>
-        <h1 className={styles.title}>
-          Welcome to <a href="https://nextjs.org">Next.js</a> on Docker Compose!
-        </h1>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', marginTop: '20px' }}>
+        {JOBS_DATA.map((job: Job) => {
+          return <div key={job.id} style={{
+            border: '1px solid #e0e0e0',
+            borderRadius: '8px',
+            padding: '24px',
+            backgroundColor: '#ffffff',
+            boxShadow: '0 2px 4px rgba(0,0,0,0.02)'
+          }}>
 
-        <p className={styles.description}>
-          Get started by editing{" "}
-          <code className={styles.code}>pages/index.tsx</code>
-        </p>
+            <span style={{ fontSize: '12px', fontWeight: 'bold', color: '#666', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+              {job.department}
+            </span>
 
-        <div className={styles.grid}>
-          <a href="https://nextjs.org/docs" className={styles.card}>
-            <h3>Documentation &rarr;</h3>
-            <p>Find in-depth information about Next.js features and API.</p>
-          </a>
+            <h2 style={{ margin: '4px 0 12px 0', color: '#0070f3', fontSize: '22px' }}>
+              {job.title}
+            </h2>
 
-          <a href="https://nextjs.org/learn" className={styles.card}>
-            <h3>Learn &rarr;</h3>
-            <p>Learn about Next.js in an interactive course with quizzes!</p>
-          </a>
+            <div style={{ display: 'flex', gap: '15px', marginBottom: '15px', color: '#555', fontSize: '14px' }}>
+              <span>{job.location}</span>
+              <span>{job.type}</span>
+            </div>
 
-          <a
-            href="https://github.com/vercel/next.js/tree/master/examples"
-            className={styles.card}
-          >
-            <h3>Examples &rarr;</h3>
-            <p>Discover and deploy boilerplate example Next.js projects.</p>
-          </a>
+            <hr style={{ border: '0', borderTop: '1px solid #f0f0f0', margin: '12px 0' }} />
 
-          <a
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={styles.card}
-          >
-            <h3>Deploy &rarr;</h3>
-            <p>
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
-          </a>
-        </div>
-      </main>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '10px' }}>
 
-      <footer className={styles.footer}>
-        <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{" "}
-          <span className={styles.logo}>
-            <Image src="/vercel.svg" alt="Vercel Logo" width={72} height={16} />
-          </span>
-        </a>
-      </footer>
-    </div>
+              <span style={{ fontSize: '13px', color: '#888' }}>
+                Posted on {dateFormatter(job.postedDate)}
+              </span>
+
+              <Link
+                href={`/jobs/${job.slug}`}
+                style={{
+                  color: '#0070f3',
+                  textDecoration: 'none',
+                  fontWeight: 'bold',
+                  fontSize: '15px'
+                }}
+              >
+                Details
+              </Link>
+
+            </div>
+          </div>
+        })}
+      </div>
+    </main>
   );
 }
