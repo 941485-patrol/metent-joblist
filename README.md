@@ -42,4 +42,4 @@ Definitely the Logging feature for production monitoring of errors and visibilit
 
 ## Part of the work was generated or significantly influenced by AI.
 
-The creation of unit tests is heavily influenced by AI. I also used AI for converting the JSON listing data in the PDF file into a JS object. I also used AI for setting up Tailwind CSS configurations (which I ended up not needing since I went with the inline CSS...) and custom Docker configurations.
+The creation of unit tests is heavily influenced by AI. I also used AI for converting the JSON listing data in the PDF file into a JS object. I also used AI for further validation of my code and confirmation of Next.js best practices. I also used AI for setting up Tailwind CSS configurations (which I ended up not needing since I went with the inline CSS...) and custom Docker configurations. Refactoring is mostly done by myself.
